@@ -18,7 +18,7 @@ class IncubyteStringCalculator
     negatives = nums.select { |num| num < 0 }
 
     unless negatives.empty?
-      raise ArgumentError, "negative numbers not allowed #{negatives.join(',')}"
+      raise ArgumentError, "Negative numbers not allowed: #{negatives.join(', ')}"
     end
     nums.sum
   end
