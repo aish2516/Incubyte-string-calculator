@@ -1,21 +1,26 @@
 class IncubyteStringCalculator
 
   def self.add(numbers)
+    numbers = numbers.gsub("\\n", "\n")
     return 0 if numbers.strip.empty?
-
-    delimiter = /,|\n/
-
+    delimiter = /,|\n/ 
     if numbers.start_with?("//")
-      parts = numbers.split("\n", 2)
-      delimiter = Regexp.escape(parts[0][2..])
-      numbers = parts[1]
+      match = numbers.match(/^\/\/(.+)\n/)
+      if match
+        custom_delimiter = Regexp.escape(match[1]) 
+        delimiter = /#{custom_delimiter}|,|\n/ 
+        numbers = numbers.sub(/^\/\/.+\n/, '') 
+      end
     end
 
-    nums = numbers.split(/#{delimiter}/).map(&:to_i)
+    nums = numbers.split(delimiter).map(&:to_i)
+  
+    negatives = nums.select { |num| num < 0 }
 
-    negatives = nums.select(&:negative?)
-    raise ArgumentError, "Negative numbers not allowed: #{negatives.join(', ')}" unless negatives.empty?
-
+    unless negatives.empty?
+      raise ArgumentError, "negative numbers not allowed #{negatives.join(',')}"
+    end
     nums.sum
   end
 end
+
