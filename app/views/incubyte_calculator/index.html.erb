@@ -1,0 +1,15 @@
+<h1>Incubyte String Calculator</h1>
+
+<form action="<%= incubyte_calculator_calculate_path %>" method="get">
+  <label>Enter numbers:</label>
+  <input type="text" name="numbers" value="<%= params[:numbers] %>" />
+  <button type="submit">Calculate</button>
+</form>
+
+<% if @result %>
+  <h3>Result: <%= @result %></h3>
+<% end %>
+
+<% if @error %>
+  <h3 style="color: red;">Error: <%= @error %></h3>
+<% end %>
